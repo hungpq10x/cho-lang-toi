@@ -1,0 +1,9 @@
+# Cấu hình chạy thử cục bộ, không cần đưa lên mạng
+.claude/
+
+# Bản sao lưu dữ liệu đơn hàng tải về (có thông tin khách)
+cholangtoi-saoluu-*.json
+don-hang-*.csv
+
+Thumbs.db
+.DS_Store

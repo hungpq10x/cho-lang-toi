@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2f6b3a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Chợ Làng Tôi">
+  <title>Chợ Làng Tôi – Quản lý đơn</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1 id="shop-name">Chợ Làng Tôi</h1>
+      <p class="batch-label">Đợt hiện tại: <strong id="current-batch">—</strong></p>
+    </div>
+  </header>
+
+  <main>
+    <!-- Tab 1: Tạo đơn -->
+    <section class="view" id="view-new" data-view="new">
+      <form id="order-form" autocomplete="off" novalidate>
+        <div class="card">
+          <div class="card-head">
+            <h2 id="form-title">Đơn mới</h2>
+            <button type="button" class="btn-link hidden" id="cancel-edit">Huỷ sửa</button>
+          </div>
+          <label class="field">
+            <span>Số điện thoại</span>
+            <input type="tel" name="phone" inputmode="numeric" placeholder="09xx xxx xxx" maxlength="12">
+          </label>
+          <div class="suggest" id="customer-suggest"></div>
+          <label class="field">
+            <span>Tên khách</span>
+            <input type="text" name="name" placeholder="VD: Chị Lan">
+          </label>
+          <label class="field">
+            <span>Địa chỉ giao hàng</span>
+            <input type="text" name="address" placeholder="Xóm, thôn, số nhà…">
+          </label>
+          <label class="field">
+            <span>Ghi chú <em>(không bắt buộc)</em></span>
+            <input type="text" name="note" placeholder="VD: giao trước 10h">
+          </label>
+        </div>
+
+        <div class="card">
+          <h2>Chọn món</h2>
+          <div id="product-picker" class="picker"></div>
+          <p class="empty hidden" id="picker-empty">Chưa có món nào. Vào <b>Cài đặt</b> để thêm món hàng.</p>
+        </div>
+
+        <div class="form-bar">
+          <div class="form-total">
+            <span id="form-count">0 món</span>
+            <strong id="form-total">0đ</strong>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg" id="save-order">Lưu đơn</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Tab 2: Đơn hàng -->
+    <section class="view hidden" id="view-orders" data-view="orders">
+      <div class="toolbar">
+        <input type="search" id="order-search" placeholder="Tìm tên hoặc SĐT…">
+        <select id="order-batch"></select>
+      </div>
+      <div class="chips" id="order-filter">
+        <button type="button" class="chip active" data-filter="all">Tất cả</button>
+        <button type="button" class="chip" data-filter="unpaid">Chưa TT</button>
+        <button type="button" class="chip" data-filter="paid">Đã TT</button>
+      </div>
+      <p class="list-summary" id="order-summary"></p>
+      <div id="order-list"></div>
+    </section>
+
+    <!-- Tab 3: Thống kê -->
+    <section class="view hidden" id="view-stats" data-view="stats">
+      <div class="toolbar">
+        <select id="stats-scope"></select>
+      </div>
+      <div class="stat-grid" id="stat-tiles"></div>
+      <div class="card">
+        <div class="card-head">
+          <h2>Hàng cần chuẩn bị</h2>
+          <button type="button" class="btn btn-sm" id="copy-prep">Copy</button>
+        </div>
+        <div id="prep-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h2>Đóng gói theo khách</h2>
+          <button type="button" class="btn btn-sm" id="copy-pack">Copy</button>
+        </div>
+        <div id="pack-list"></div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Cài đặt -->
+    <section class="view hidden" id="view-settings" data-view="settings">
+      <div class="card">
+        <h2>Đợt hàng</h2>
+        <p class="muted">Mỗi đơn mới sẽ được ghi vào đợt hiện tại. Khi chốt xong một đợt, mở đợt mới để thống kê riêng.</p>
+        <div id="batch-list"></div>
+        <button type="button" class="btn btn-primary" id="new-batch">+ Mở đợt mới</button>
+      </div>
+
+      <div class="card">
+        <h2>Món hàng</h2>
+        <div id="product-list"></div>
+        <form id="product-add" class="product-row product-add" autocomplete="off">
+          <input name="name" placeholder="Tên món" required>
+          <input name="unit" placeholder="Đơn vị" required>
+          <input name="price" placeholder="Giá" inputmode="numeric" required>
+          <button type="submit" class="btn btn-primary">Thêm</button>
+        </form>
+      </div>
+
+      <form class="card" id="bank-form" autocomplete="off">
+        <h2>Tài khoản nhận tiền</h2>
+        <p class="warn hidden" id="bank-warn">Đang dùng <b>tài khoản mẫu</b>. Hãy nhập tài khoản thật trước khi gửi mã QR cho khách.</p>
+        <label class="field">
+          <span>Tên cửa hàng</span>
+          <input name="shopName" required>
+        </label>
+        <label class="field">
+          <span>Ngân hàng</span>
+          <select name="bankBin" id="bank-select"></select>
+        </label>
+        <label class="field">
+          <span>Số tài khoản</span>
+          <input name="accountNo" inputmode="numeric" required>
+        </label>
+        <label class="field">
+          <span>Tên chủ tài khoản (không dấu)</span>
+          <input name="accountName" required>
+        </label>
+        <div class="row-actions">
+          <button type="submit" class="btn btn-primary">Lưu</button>
+          <button type="button" class="btn" id="bank-test">Xem QR thử</button>
+        </div>
+      </form>
+
+      <div class="card">
+        <h2>Sao lưu dữ liệu</h2>
+        <p class="muted">Dữ liệu chỉ nằm trên máy này. Nên tải bản sao lưu sau mỗi đợt hàng để phòng mất máy hoặc xoá trình duyệt.</p>
+        <p class="muted" id="backup-info"></p>
+        <div class="row-actions wrap">
+          <button type="button" class="btn btn-primary" id="export-json">Tải bản sao lưu</button>
+          <button type="button" class="btn" id="export-csv">Xuất Excel (CSV)</button>
+          <label class="btn">
+            Khôi phục từ file
+            <input type="file" id="import-json" accept="application/json,.json" hidden>
+          </label>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <button type="button" data-tab="new" class="active"><span class="ico">＋</span>Tạo đơn</button>
+    <button type="button" data-tab="orders"><span class="ico">☰</span>Đơn hàng<b class="badge hidden" id="unpaid-badge"></b></button>
+    <button type="button" data-tab="stats"><span class="ico">▤</span>Thống kê</button>
+    <button type="button" data-tab="settings"><span class="ico">⚙</span>Cài đặt</button>
+  </nav>
+
+  <!-- Hộp thoại QR -->
+  <dialog id="qr-dialog">
+    <div class="qr-box">
+      <button type="button" class="qr-close" data-close aria-label="Đóng">✕</button>
+      <h3 id="qr-title"></h3>
+      <p class="qr-amount" id="qr-amount"></p>
+      <img id="qr-img" alt="Mã QR chuyển khoản" width="300" height="300">
+      <p class="qr-info" id="qr-info"></p>
+      <p class="warn hidden" id="qr-warn">Đây là tài khoản mẫu, chưa nhận được tiền thật.</p>
+      <div class="row-actions">
+        <button type="button" class="btn btn-primary" id="qr-share">Gửi ảnh QR</button>
+        <button type="button" class="btn" id="qr-copy">Copy tin nhắn</button>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/store.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/order-form.js"></script>
+  <script src="js/orders.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/settings.js"></script>
+  <script>App.start();</script>
+</body>
+</html>
