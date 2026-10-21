@@ -1,6 +1,6 @@
 // Lưu sẵn các file của app để mở được cả khi mất mạng.
 // Khi sửa code, tăng số phiên bản để máy người dùng tải bản mới.
-const CACHE = 'cholangtoi-v1';
+const CACHE = 'cholangtoi-v2';
 const ASSETS = [
   './',
   'index.html',
@@ -12,7 +12,9 @@ const ASSETS = [
   'js/stats.js',
   'js/settings.js',
   'manifest.json',
+  'favicon.ico',
   'icons/icon.svg',
+  'icons/apple-touch-icon.png',
   'icons/icon-192.png',
   'icons/icon-512.png',
 ];

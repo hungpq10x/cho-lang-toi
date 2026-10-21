@@ -1,0 +1,126 @@
+<!doctype html>
+<!-- Nguồn của ảnh og-image.png (1200×630). Xuất lại bằng tools/make-og.ps1 -->
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: "Segoe UI", system-ui, sans-serif;
+    background: #f6f4ee; color: #22261f;
+    display: grid; grid-template-columns: 1fr 470px;
+  }
+  .left { padding: 64px 40px 56px 72px; display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 700; color: #2f6b3a; }
+  .brand svg { width: 64px; height: 64px; }
+  h1 { font-size: 66px; line-height: 1.08; font-weight: 800; letter-spacing: -1.5px; margin-top: 36px; }
+  h1 em { font-style: normal; color: #2f6b3a; }
+  .sub { font-size: 27px; color: #5d6258; margin-top: 20px; line-height: 1.35; }
+  ul { list-style: none; padding: 0; margin-top: 30px; display: grid; gap: 12px; }
+  li { font-size: 25px; font-weight: 600; display: flex; align-items: center; gap: 14px; }
+  li b {
+    width: 34px; height: 34px; border-radius: 50%; background: #2f6b3a; color: #fff;
+    display: inline-flex; align-items: center; justify-content: center; font-size: 19px;
+  }
+  .url { margin-top: auto; font-size: 21px; color: #8a8f84; font-weight: 600; }
+
+  .right {
+    background: #2f6b3a; position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .right::before, .right::after {
+    content: ""; position: absolute; border-radius: 50%; background: rgba(255,255,255,.06);
+  }
+  .right::before { width: 420px; height: 420px; top: -150px; right: -140px; }
+  .right::after { width: 300px; height: 300px; bottom: -120px; left: -90px; }
+
+  .card {
+    position: relative; z-index: 1; width: 340px; background: #fff; border-radius: 26px;
+    padding: 24px 24px 20px; box-shadow: 0 24px 60px rgba(0,0,0,.28); transform: translate(-16px, -34px) rotate(-3deg);
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .code { font-size: 15px; color: #8a8f84; font-weight: 600; }
+  .name { font-size: 24px; font-weight: 800; }
+  .pill { font-size: 14px; font-weight: 800; color: #c0392b; background: #fbe9e6; border: 1.5px solid #efc9c3; border-radius: 99px; padding: 5px 12px; }
+  .items { margin: 14px 0 10px; font-size: 16px; display: grid; gap: 5px; }
+  .items div { display: flex; justify-content: space-between; }
+  .total { display: flex; justify-content: space-between; align-items: center; border-top: 1.5px dashed #e3e0d6; padding-top: 10px; font-size: 16px; }
+  .total strong { font-size: 26px; color: #24542d; }
+  .qr { display: flex; gap: 14px; align-items: center; margin-top: 14px; background: #f6f4ee; border-radius: 16px; padding: 12px; }
+  .qr svg { width: 96px; height: 96px; flex: none; background: #fff; border-radius: 8px; padding: 6px; }
+  .qr p { font-size: 15px; color: #5d6258; line-height: 1.35; }
+  .qr p b { display: block; color: #22261f; font-size: 17px; }
+
+  .prep {
+    position: absolute; z-index: 2; right: 26px; bottom: 30px; width: 220px;
+    background: #fff; border-radius: 18px; padding: 14px 16px; transform: rotate(3deg);
+    box-shadow: 0 16px 40px rgba(0,0,0,.25); font-size: 15px;
+  }
+  .prep h4 { font-size: 14px; color: #8a8f84; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+  .prep div { display: flex; justify-content: space-between; padding: 2px 0; }
+  .prep strong { color: #24542d; }
+</style>
+</head>
+<body>
+  <section class="left">
+    <div class="brand">
+      <svg viewBox="0 0 512 512" aria-hidden="true">
+        <rect width="512" height="512" rx="112" fill="#2f6b3a"/>
+        <path d="M136 220h240l-28 168a24 24 0 0 1-24 20H188a24 24 0 0 1-24-20z" fill="#fff"/>
+        <path d="M190 220l46-86M322 220l-46-86" stroke="#fff" stroke-width="26" stroke-linecap="round" fill="none"/>
+        <path d="M200 268v92M256 268v92M312 268v92" stroke="#2f6b3a" stroke-width="18" stroke-linecap="round"/>
+        <path d="M246 170c-10-40 14-74 56-78-2 44-26 70-56 78z" fill="#9fd18a"/>
+      </svg>
+      Chợ Làng Tôi
+    </div>
+    <h1>Nhập đơn nhanh,<br><em>thu tiền bằng QR</em></h1>
+    <p class="sub">Quản lý đơn hàng cho shop bán qua Zalo</p>
+    <ul>
+      <li><b>✓</b>Tự tính tiền theo món và số lượng</li>
+      <li><b>✓</b>Mã QR chuyển khoản đúng số tiền</li>
+      <li><b>✓</b>Tổng hàng cần chuẩn bị mỗi đợt</li>
+    </ul>
+    <p class="url">hungpq10x.github.io/cho-lang-toi</p>
+  </section>
+
+  <section class="right">
+    <div class="card">
+      <div class="card-top">
+        <div><div class="code">DH0012 · 8:30 hôm nay</div><div class="name">Chị Lan</div></div>
+        <span class="pill">Chưa TT</span>
+      </div>
+      <div class="items">
+        <div><span>Rau muống × 2 bó</span><span>30.000đ</span></div>
+        <div><span>Thịt ba chỉ × 1,5 kg</span><span>240.000đ</span></div>
+        <div><span>Trứng gà × 1 chục</span><span>40.000đ</span></div>
+      </div>
+      <div class="total"><span>Tổng cộng</span><strong>310.000đ</strong></div>
+      <div class="qr">
+        <svg id="qr" viewBox="0 0 25 25" shape-rendering="crispEdges"></svg>
+        <p><b>Quét mã trả tiền</b>Số tiền và nội dung<br>điền sẵn cho khách</p>
+      </div>
+    </div>
+    <div class="prep">
+      <h4>Cần chuẩn bị</h4>
+      <div><span>Rau muống</span><strong>10 bó</strong></div>
+      <div><span>Thịt ba chỉ</span><strong>5 kg</strong></div>
+      <div><span>Trứng gà</span><strong>6 chục</strong></div>
+    </div>
+  </section>
+
+<script>
+  // Hoạ tiết giống mã QR (chỉ để trang trí, không quét được).
+  const n = 25, svg = document.getElementById('qr');
+  let seed = 7;
+  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const finder = (x, y) => `<rect x="${x}" y="${y}" width="7" height="7" fill="#22261f"/><rect x="${x + 1}" y="${y + 1}" width="5" height="5" fill="#fff"/><rect x="${x + 2}" y="${y + 2}" width="3" height="3" fill="#22261f"/>`;
+  const inFinder = (x, y) => (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9);
+  let cells = '';
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    if (!inFinder(x, y) && rnd() < 0.5) cells += `<rect x="${x}" y="${y}" width="1" height="1" fill="#22261f"/>`;
+  }
+  svg.innerHTML = cells + finder(0, 0) + finder(n - 7, 0) + finder(0, n - 7);
+</script>
+</body>
+</html>
